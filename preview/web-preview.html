@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ezpaste web preview</title>
+  </head>
+  <body>
+    <script>
+      'use strict';
+      ;(() => {
+        var search = location.search.slice(1)
+        if (search[0] === '%') {
+          search = decodeURIComponent(search);
+        }
+        try {
+          window.ezpasteData = JSON.parse(search);
+        } catch (e) {
+          alert('Expected a json query string but received ' + search);
+        }
+      })();
+
+
+      window.ezpasteData.scripts.forEach((script) => {
+        document.write(`<script src="${script}">\x3c/script>`);
+      });
+    </script>
+    <script>
+      function insertCss(strings, ...values) {
+        var results = [strings[0]];
+        for (var i=0; i < values.length; i++) {
+          results.push(values[i]);
+          results.push(strings[i + 1]);
+        }
+        var css = results.join('\n');
+        var el = document.createElement('style');
+        el.innerHTML = css;
+        document.head.appendChild(el);
+      }
+      function insertHtml(strings, ...values) {
+        var results = [strings[0]];
+        for (var i=0; i < values.length; i++) {
+          results.push(values[i]);
+          results.push(strings[i + 1]);
+        }
+        var html = results.join('\n');
+        var el = document.createElement('div');
+        el.innerHTML = html;
+        document.body.appendChild(el);
+      }
+    </script>
+    <script>
+      (0, eval)(window.ezpasteData.src);
+    </script>
+  </body>
+</html>
