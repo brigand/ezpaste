@@ -6,7 +6,7 @@ import Editor from './components/Editor';
 import Preview from './components/Preview';
 import Templates from './components/Templates';
 import providesUrl from './utils/providesUrl';
-
+import saveManager from './utils/saveManager';
 
 export class App extends Component {
   constructor() {
@@ -21,6 +21,7 @@ export class App extends Component {
       this.updateComputedCode.bind(this),
       500,
     );
+    this.handleSave = this.handleSave.bind(this);
   }
   updateCode(code) {
     this.setState({code});
@@ -29,6 +30,35 @@ export class App extends Component {
   updateComputedCode() {
     this.setState({computedCode: this.state.code});
   }
+
+  handleSave() {
+    saveManager.save(this.state.code, this.state.layout)
+    .then((id) => {
+      this.props.updateUrl({
+        pathname: '/',
+        query: id,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      alert('Save failed, see console for details :/');
+    })
+  }
+
+  componentDidMount() {
+    if (this.props.url.query && this.props.url.query.length > 5) {
+      saveManager.load(this.props.url.query)
+      .then(({code, layout}) => {
+        this.setState({layout});
+        this.updateCode(code);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert('Failed to load ' + this.props.url.query + '. See console for error message.');
+      });
+    }
+  }
+
   render() {
     const {definitelyShowTemplates, layout, code} = this.state;
     const showTemplates = definitelyShowTemplates || (!this.state.code && !this.state.layout);
@@ -69,7 +99,7 @@ export class App extends Component {
           </Button>
         </div>
         <div className="App-header-buttons-button">
-          <Button>Save</Button>
+          <Button onClick={this.handleSave}>Save</Button>
         </div>
         <div className="App-header-buttons-button">
           <Button>Help</Button>
