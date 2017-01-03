@@ -48,8 +48,12 @@
         document.body.appendChild(el);
       }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.18.1/babel.min.js"></script>
     <script>
-      (0, eval)(window.ezpasteData.src);
+      (0, eval)(Babel.transform(
+        window.ezpasteData.src,
+        {presets: ['es2015', 'stage-1', 'react']}
+      ).code);
     </script>
   </body>
 </html>
