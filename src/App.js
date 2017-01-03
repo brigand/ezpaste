@@ -35,7 +35,7 @@ export class App extends Component {
     saveManager.save(this.state.code, this.state.layout)
     .then((id) => {
       this.props.updateUrl({
-        pathname: '/',
+        pathname: this.props.url.pathname,
         query: id,
       });
     })
