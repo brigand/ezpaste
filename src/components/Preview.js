@@ -27,7 +27,7 @@ class Preview extends React.Component {
     const path = 'preview/web-preview.html';
     const payload = {
       scripts: getScriptsForCode(this.props.code),
-      src: this.props.code,
+      src: this.props.code + '\n\n// cache buster: ' + Math.random(),
     };
     const src = path + '?' + encodeURIComponent(JSON.stringify(payload));
     return <iframe src={src} />;
