@@ -1,21 +1,53 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Editor from './components/Editor';
+import Preview from './components/Preview';
+import Templates from './components/Templates';
+import providesUrl from './utils/providesUrl';
 
-class App extends Component {
+export class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      definitelyShowTemplates: false,
+      code: '',
+    };
+  }
   render() {
+    const showTemplates = this.state.definitelyShowTemplates || this.props.url.query.length < 2;
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          test stuff
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div className="App-content">
+          <Editor
+            code={this.state.code}
+            onChange={(code) => this.setState({code})}
+          />
+          <Preview
+            code={this.state.code}
+          />
+          {showTemplates && this.renderTemplates()}
+        </div>
       </div>
     );
   }
+
+  renderTemplates() {
+    return (
+      <div className="App-templates">
+        <Templates
+        />
+        {this.state.definitelyShowTemplates && <div
+          className="App-templates-close"
+          onClick={() => this.setState({definitelyShowTemplates: false})}
+        >
+          ×
+        </div>}
+      </div>
+    )
+  }
 }
 
-export default App;
+export default providesUrl(App);
