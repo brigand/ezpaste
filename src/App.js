@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import debounce from 'lodash/debounce';
 import './App.css';
+import Button from './components/Button';
 import Editor from './components/Editor';
 import Preview from './components/Preview';
 import Templates from './components/Templates';
 import providesUrl from './utils/providesUrl';
+
 
 export class App extends Component {
   constructor() {
@@ -11,33 +14,81 @@ export class App extends Component {
     this.state = {
       definitelyShowTemplates: false,
       code: '',
+      computedCode: '',
+      layout: null,
     };
+    this.updateComputedCode = debounce(
+      this.updateComputedCode.bind(this),
+      500,
+    );
+  }
+  updateCode(code) {
+    this.setState({code});
+    this.updateComputedCode();
+  }
+  updateComputedCode() {
+    this.setState({computedCode: this.state.code});
   }
   render() {
-    const showTemplates = this.state.definitelyShowTemplates || this.props.url.query.length < 2;
+    const {definitelyShowTemplates, layout, code} = this.state;
+    const showTemplates = definitelyShowTemplates || (!this.state.code && !this.state.layout);
+
     return (
       <div className="App">
         <div className="App-header">
-          test stuff
+          <span className="App-header-name">ezpaste</span>
+          <span className="App-header-spacer" />
+          {this.renderButtons()}
         </div>
         <div className="App-content">
-          <Editor
-            code={this.state.code}
-            onChange={(code) => this.setState({code})}
-          />
-          <Preview
-            code={this.state.code}
-          />
+          {layout && <Editor
+            code={code}
+            layout={layout}
+            onChange={(code) => this.updateCode(code)}
+          />}
+          {layout && <Preview
+            code={this.state.computedCode}
+            layout={layout}
+          />}
           {showTemplates && this.renderTemplates()}
         </div>
       </div>
     );
   }
 
+  renderButtons() {
+    return (
+      <div className="App-header-buttons-wrapper">
+        <div className="App-header-buttons-button">
+          <Button
+            onClick={() => {
+              this.setState({definitelyShowTemplates: true});
+            }}
+          >
+            New
+          </Button>
+        </div>
+        <div className="App-header-buttons-button">
+          <Button>Save</Button>
+        </div>
+        <div className="App-header-buttons-button">
+          <Button>Help</Button>
+        </div>
+      </div>
+    )
+  }
+
   renderTemplates() {
     return (
       <div className="App-templates">
         <Templates
+          onSelect={({code, layout}) => {
+            this.setState({
+              layout,
+              definitelyShowTemplates: false,
+            });
+            this.updateCode(code);
+          }}
         />
         {this.state.definitelyShowTemplates && <div
           className="App-templates-close"

@@ -6,7 +6,12 @@
     "react-scripts": "0.8.4"
   },
   "dependencies": {
+    "codemirror": "^5.22.0",
+    "codemirror-lint-eslint": "^1.0.1",
+    "eslint-webpack": "^3.12.2",
+    "lodash": "^4.17.4",
     "react": "^15.4.1",
+    "react-codemirror": "^0.3.0",
     "react-dom": "^15.4.1"
   },
   "scripts": {

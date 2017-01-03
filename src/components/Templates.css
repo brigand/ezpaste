@@ -1,0 +1,36 @@
+.Templates {
+}
+
+.Templates-template {
+  display: inline-block;
+  margin: 0.5em;
+  width: 15em;
+  height: 15em;
+  padding: 1em;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: white;
+  box-shadow: 0 0 3px 2px #aaa;
+  cursor: pointer;
+}
+
+.Templates-template:hover {
+
+}
+
+.Templates-template-icon {
+  width: 12em;
+  height: 8em;
+  margin: auto;
+  margin-bottom: 0.25em;
+  background: #ccc;
+}
+
+.Templates-template-name {
+  text-align: center;
+  font-size: 1.3em;
+  margin-bottom: 0.25em;
+}
+
+.Templates-template-description {
+}

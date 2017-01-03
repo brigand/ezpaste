@@ -1,0 +1,11 @@
+.Editor {
+  flex-grow: 1;
+}
+
+.Editor .ReactCodeMirror {
+  height: 100%;
+}
+
+.Editor .CodeMirror {
+  height: 100%;
+}

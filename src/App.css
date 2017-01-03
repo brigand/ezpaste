@@ -12,15 +12,35 @@ body, html, #root, .App {
 
 .App-header {
   background-color: #222;
-  padding: 5px 20px;
+  padding: 0 20px;
   height: 3em;
   color: white;
+}
+
+.App-header-name {
+  line-height: 3em;
+  font-style: italic;
+}
+
+.App-header-spacer {
+  margin-left: 5em;
+}
+
+.App-header-buttons-wrapper {
+  display: inline-block;
+}
+
+.App-header-buttons-button {
+  border-right: 2px solid black;
+  display: inline-block;
 }
 
 .App-content {
   position: relative;
   height: 100%;
   background: #eeeeee;
+  display: flex;
+  flex-direction: row;
 }
 
 .App-templates {
@@ -29,6 +49,7 @@ body, html, #root, .App {
   left: 1em;
   right: 1em;
   background: #dddddd;
+  z-index: 1000;
 }
 
 .App-templates-close {
