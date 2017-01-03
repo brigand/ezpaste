@@ -9,6 +9,14 @@ class Preview extends React.Component {
     layout: PropTypes.object,
   };
 
+  constructor() {
+    super();
+
+    this.state = {
+      cacheBuster: Math.random().toString(),
+    };
+  }
+
   render() {
 
     return (
@@ -27,7 +35,7 @@ class Preview extends React.Component {
     const path = 'preview/web-preview.html';
     const payload = {
       scripts: getScriptsForCode(this.props.code),
-      src: this.props.code + '\n\n// cache buster: ' + Math.random(),
+      src: this.props.code + '\n\n// cache buster: ' + this.state.cacheBuster,
     };
     const src = path + '?' + encodeURIComponent(JSON.stringify(payload));
     return <iframe src={src} />;
