@@ -5,6 +5,7 @@ import Button from './components/Button';
 import Editor from './components/Editor';
 import Preview from './components/Preview';
 import Templates from './components/Templates';
+import Help from './components/Help';
 import providesUrl from './utils/providesUrl';
 import saveManager from './utils/saveManager';
 
@@ -16,6 +17,7 @@ export class App extends Component {
       code: '',
       computedCode: '',
       layout: null,
+      showHelp: false,
     };
     this.updateComputedCode = debounce(
       this.updateComputedCode.bind(this),
@@ -60,7 +62,7 @@ export class App extends Component {
   }
 
   render() {
-    const {definitelyShowTemplates, layout, code} = this.state;
+    const {definitelyShowTemplates, layout, code, showHelp} = this.state;
     const showTemplates = definitelyShowTemplates || (!this.state.code && !this.state.layout);
 
     return (
@@ -81,6 +83,7 @@ export class App extends Component {
             layout={layout}
           />}
           {showTemplates && this.renderTemplates()}
+          {showHelp && this.renderHelp()}
         </div>
       </div>
     );
@@ -102,7 +105,9 @@ export class App extends Component {
           <Button onClick={this.handleSave}>Save</Button>
         </div>
         <div className="App-header-buttons-button">
-          <Button>Help</Button>
+          <Button onClick={() => this.setState({showHelp: !this.state.showHelp})}>
+            Help
+          </Button>
         </div>
       </div>
     )
@@ -126,6 +131,20 @@ export class App extends Component {
         >
           ×
         </div>}
+      </div>
+    )
+  }
+
+  renderHelp() {
+    return (
+      <div className="App-help">
+        <Help />
+          <div
+            className="App-help-close"
+            onClick={() => this.setState({showHelp: false})}
+          >
+            ×
+          </div>
       </div>
     )
   }

@@ -34,3 +34,9 @@
 
 .Templates-template-description {
 }
+
+.Templates-template-disabled {
+  opacity: 0.1;
+  cursor: not-allowed;
+}
+

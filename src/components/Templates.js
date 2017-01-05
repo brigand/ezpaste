@@ -19,11 +19,17 @@ class Templates extends React.Component {
   }
 
   renderTemplate(data) {
+    let className = 'Templates-template';
+    if (data.disabled) {
+      className += ' Templates-template-disabled';
+    }
     return (
       <div
         key={data.name}
-        className="Templates-template"
+        className={className}
         onClick={() => {
+          if (data.disabled) return;
+
           this.props.onSelect({
             layout: data.layout,
             code: data.code,

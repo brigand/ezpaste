@@ -24,6 +24,7 @@ content.textContent = 'Hello, world!';
   },
   {
     name: 'Console',
+    disabled: true,
     description: 'Console preview instead of a web page',
     layout: {
       left: 'js',
